@@ -12,18 +12,16 @@ describe 'python::default' do
     # https://github.com/chefspec/fauxhai/blob/master/PLATFORMS.md
     platform 'ubuntu', '18.04'
 
-    it 'converges successfully' do
-      expect { chef_run }.to_not raise_error
+    it 'Should install python' do
+        expect(chef_run).to install_package 'python'
     end
-  end
 
-  context 'When all attributes are default, on CentOS 7' do
-    # for a complete list of available platforms and versions see:
-    # https://github.com/chefspec/fauxhai/blob/master/PLATFORMS.md
-    platform 'centos', '7'
+    it 'Should install pip' do
+        expect(chef_run).to install_package 'python-pip'
+    end
 
-    it 'converges successfully' do
-      expect { chef_run }.to_not raise_error
+    it 'provides requests plugin' do
+      expect(chef_run).to run_execute('pip install requests==2.3.0')
     end
   end
 end
